@@ -11,7 +11,13 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list( data, callback = f => f ) {
-
+    return createRequest(Object.assign(
+    {url: this.HOST + this.URL,
+    method: 'GET'},
+    {data}),
+    (err, data) => {
+    callback(err, data);
+    });
   }
 
   /**
@@ -20,7 +26,14 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f ) {
-
+    data = Object.assign({_method: 'PUT'}, data);
+    return createRequest(Object.assign(
+    {url: this.HOST + this.URL,
+    method: 'POST'},
+    data),
+    (err, data) => {
+    callback(err, data);
+    });
   }
 
   /**
@@ -28,7 +41,14 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
-
+    data = Object.assign({id}, data);
+    return createRequest(Object.assign(
+    {url: this.HOST + this.URL,
+    method: 'GET'},
+    {data}),
+    (err, data) => {
+      callback(err, data);
+    });
   }
 
   /**
@@ -36,7 +56,16 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f ) {
-
+    data = Object.assign({id}, {_method: 'DELETE'}, data);
+    return createRequest(Object.assign(
+    {url: this.HOST + this.URL,
+    method: 'POST'},
+    {data}),
+    (err, data) => {
+      callback(err, data);
+    });
   }
 }
 
+Entity.HOST = 'https://bhj-diplom.letsdocode.ru';
+Entity.URL = '';
