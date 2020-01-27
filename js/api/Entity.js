@@ -47,7 +47,7 @@ class Entity {
     method: 'GET'},
     {data}),
     (err, data) => {
-      callback(err, data);
+    callback(err, data);
     });
   }
 
@@ -62,7 +62,7 @@ class Entity {
     method: 'POST'},
     {data}),
     (err, data) => {
-      callback(err, data);
+    callback(err, data);
     });
   }
 }
