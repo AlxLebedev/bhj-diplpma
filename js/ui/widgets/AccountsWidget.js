@@ -30,20 +30,14 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const createAccountBtn = this.element.querySelector('.create-account');
-    const accounts = this.element.querySelectorAll('.account');
-
-    createAccountBtn.addEventListener('click', function(event) {
-      event.preventDefault();
-      App.getModal('createAccount').open();
+    this.element.addEventListener("click", event => {
+      if (event.target.closest(".create-account")) {
+        App.getModal("createAccount").open();
+      }
+      if (event.target.closest(".account")) {
+        this.onSelectAccount(event.target.closest(".account"));
+      }
     });
-
-    for (let account of accounts) {
-      account.addEventListener('click', function(event) {
-        event.preventDefault();
-        this.onSelectAccount(event.target);
-      });
-    }
   }
 
   /**
@@ -110,23 +104,12 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-    const createdAccount = document.createElement('li');
-    const accountName = item.name;
-    const accountSum = item.sum;
-    const accountId = item.id;
-    
-    createdAccount.className = 'account';
-    createdAccount.dataset.id = accountId;
-    createdAccount.innerHTML = `<a href = "#">
-                                  <span>${accountName}</span>
-                                  <span>${accountSum} ₽</span>
-                                </a>`;
-      
-    createdAccount.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.onSelectAccount(event.target);
-    });
-
+    const createdAccount = `<li class="account" data-id="${item.id}">
+                              <a href="#">
+                                  <span>${item.name}</span> /
+                                  <span>${item.sum} ₽</span>
+                              </a>
+                            </li>`;
     return createdAccount;
   }
 
@@ -137,6 +120,6 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem( item ) {
-    this.element.insertAdjacentElement('beforeend', this.getAccountHTML(item));
+    this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(item));
   }
 }
