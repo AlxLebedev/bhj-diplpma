@@ -63,8 +63,7 @@ class TransactionsPage {
       let confirmDialog = confirm('Вы действительно хотите удалить счёт?');
 
       if (confirmDialog) {
-        Account.remove(options, {}, (err, data) => {
-  
+        Account.remove(this.lastOptions.account_id, {}, (err, data) => {
           if (data.success) {
             this.clear();
             App.update();
