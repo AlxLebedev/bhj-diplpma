@@ -17,8 +17,8 @@ const createRequest = (options = {}, callback) => {
   	} else {
 		currentFormData = new FormData();
 		currentUrl = options.url;
-		for (let property in options.data) {
-			currentFormData.append(property, options.data[property]);
+		for (let item in options.data) {
+			currentFormData.append(item, options.data[item]);
 		}
 	};
 
