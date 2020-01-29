@@ -46,7 +46,6 @@ class TransactionsPage {
           this.removeAccount(accountId);
         }
       }
-
     });
   }
 
@@ -86,7 +85,6 @@ class TransactionsPage {
 
       if (confirmDialog) {
         Transaction.remove(id, {}, (err, data) => {
-          
           if (data.success) {
             App.update();
           } else if (err) {
@@ -108,7 +106,6 @@ class TransactionsPage {
       this.lastOptions = options;
 
       Account.get(options.account_id, {}, (err, data) => {
-
         if(data) {
           this.renderTitle(data.data.name);
         } else if (err) {
@@ -150,8 +147,8 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate( date ) {
-    let currentDate = new Date(date);
-    let months = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+    const currentDate = new Date(date);
+    const months = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
     
     const day = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
     const month = months[currentDate.getMonth()];
@@ -169,25 +166,25 @@ class TransactionsPage {
   getTransactionHTML( item ) {
     return `
     <div class="transaction transaction_${item.type} row">
-          <div class="col-md-7 transaction__details">
-              <div class="transaction__icon">
-                  <span class="fa fa-money fa-2x"></span>
-              </div>
-              <div class="transaction__info">
-                  <h4 class="transaction__title">${item.name}</h4>
-                  <div class="transaction__date">${this.formatDate(item.date)}</div>
-              </div>
-          </div>
-          <div class="col-md-3">
-              <div class="transaction__summ">
-                  ${item.sum} <span class="currency">₽</span>
-              </div>
-          </div>
-          <div class="col-md-2 transaction__controls">
-              <button class="btn btn-danger transaction__remove" data-id="${item.id}">
-                <i class="fa fa-trash"></i>
-              </button>
-          </div>
+      <div class="col-md-7 transaction__details">
+        <div class="transaction__icon">
+          <span class="fa fa-money fa-2x"></span>
+        </div>
+        <div class="transaction__info">
+          <h4 class="transaction__title">${item.name}</h4>
+          <div class="transaction__date">${this.formatDate(item.created_at)}</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="transaction__summ">
+          ${item.sum} <span class="currency">₽</span>
+        </div>
+      </div>
+      <div class="col-md-2 transaction__controls">
+        <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
       </div>
     `;
   }
@@ -200,8 +197,8 @@ class TransactionsPage {
     const contentField = document.querySelector('.content');
 
     if (data) {
-      for (let i = 0; i < data.length; i++) {
-        contentField.insertAdjacentHTML('beforeend', this.getTransactionHTML(data[i]));
+      for (let item of data) {
+        contentField.insertAdjacentHTML('beforeend', this.getTransactionHTML(item));
       }
     } else {
       contentField.innerHTML = '';
